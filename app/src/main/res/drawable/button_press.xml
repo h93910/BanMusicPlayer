@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:drawable="@drawable/button_pressed" android:state_pressed="true"/>
+    <item android:drawable="@drawable/buttonbackg"/><!-- 
+        <shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+            <corners android:radius="16dp" />
+      
+            <solid android:color="#80065e8d" />
+
+            <stroke android:dashGap="0dp" android:width="4dp" android:color="@android:color/white" />
+        </shape></item> -->
+
+</selector>

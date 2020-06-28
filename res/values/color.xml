@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <drawable name="button_pressed">#A6CAF0</drawable>
-    <drawable name="button_normal">#00000000</drawable>
-
-</resources>

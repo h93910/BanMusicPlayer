@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.banmusicplayer"
+    android:versionCode="3"
+    android:versionName="1.0.2.160108" >
+
+    <uses-sdk android:targetSdkVersion="18" />
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.REORDER_TASKS"/>
+
+    <application
+        android:allowBackup="true"
+        android:name="com.example.banmusicplayer.base.MyApplication"
+        android:icon="@drawable/icon"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name="com.example.banmusicplayer.MainFragmentActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name="com.example.banmusicplayer.MusicListActivity" >
+        </activity>
+        <activity
+            android:name="com.example.banmusicplayer.MusicPlayerActivity"
+            android:label="@string/title_activity_music_player"
+            android:launchMode="singleTask" >
+        </activity>
+
+        <receiver android:name="com.example.banmusicplayer.MusicPlayerActivity$MyBroadcast" >
+        </receiver>
+
+        <service android:name="com.example.banmusicplayer.server.MusicServer" >
+        </service>
+    </application>
+
+</manifest>
