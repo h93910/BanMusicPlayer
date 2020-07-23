@@ -12,218 +12,222 @@ import android.os.Handler;
 import android.os.Message;
 import android.view.View;
 import android.view.Window;
+import android.widget.Toast;
 
 import androidx.fragment.app.FragmentActivity;
 
 
 /**
  * 基础Activity
- * 
+ *
  * @author Ban
- * 
  */
 public abstract class MyBaseActivity extends FragmentActivity {
-	protected Activity activity = this;
-	private Builder alertDialog;
-	private ProgressDialog progressDialog;
+    protected Activity activity = this;
+    protected Builder alertDialog;
+    private ProgressDialog progressDialog;
 
-	private OnClickListener positiveButtonListener = null;
-	private OnClickListener negativeButtonListener = null;
-	private MyRun myRun;
-	
-	private Handler handler = new Handler() {
-		@SuppressWarnings("deprecation")
-		@Override
-		public void handleMessage(Message msg) {
-			switch (msg.what) {
-			case 0:
-				if (progressDialog.isShowing()) {
-					progressDialog.dismiss();
-				}
-				break;
-			case 1:
-				progressDialog = new ProgressDialog(activity);
-				progressDialog.setMessage(msg.obj.toString());
-				if (msg.arg1 == 1) {
-					progressDialog.setButton(
-							getResources().getString(R.string.Sys_Cancel),
-							new OnClickListener() {
-								@Override
-								public void onClick(DialogInterface dialog,
-										int which) {
-									Message.obtain(handler, 0).sendToTarget();
-								}
-							});
-				}
-				progressDialog.setCancelable(false);
-				progressDialog.setIndeterminate(false);
-				progressDialog.show();
-				break;
-			case 2:
-				OnClickListener[] a = (OnClickListener[]) msg.obj;
-				if (a != null && a.length == 1) {
-					alertDialog.setTitle(R.string.Sys_Warning)
-							.setMessage(msg.arg1)
-							.setPositiveButton(R.string.Sys_Yes, a[0]).show();
-				} else {
-					alertDialog.setTitle(R.string.Sys_Warning)
-							.setMessage(msg.arg1)
-							.setPositiveButton(R.string.Sys_Yes, null).show();
-				}
+    private OnClickListener positiveButtonListener = null;
+    private OnClickListener negativeButtonListener = null;
+    private MyRun myRun;
 
-				break;
-			case 3:
-				alertDialog.setTitle(R.string.Sys_Warning)
-						.setMessage(msg.obj.toString())
-						.setPositiveButton(R.string.Sys_Yes, null).show();
+    private Handler handler = new Handler() {
+        @SuppressWarnings("deprecation")
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 0:
+                    if (progressDialog.isShowing()) {
+                        progressDialog.dismiss();
+                    }
+                    break;
+                case 1:
+                    progressDialog = new ProgressDialog(activity);
+                    progressDialog.setMessage(msg.obj.toString());
+                    if (msg.arg1 == 1) {
+                        progressDialog.setButton(
+                                getResources().getString(R.string.Sys_Cancel),
+                                new OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog,
+                                                        int which) {
+                                        Message.obtain(handler, 0).sendToTarget();
+                                    }
+                                });
+                    }
+                    progressDialog.setCancelable(false);
+                    progressDialog.setIndeterminate(false);
+                    progressDialog.show();
+                    break;
+                case 2:
+                    OnClickListener[] a = (OnClickListener[]) msg.obj;
+                    if (a != null && a.length == 1) {
+                        alertDialog.setTitle(R.string.Sys_Warning)
+                                .setMessage(msg.arg1)
+                                .setPositiveButton(R.string.Sys_Yes, a[0]).show();
+                    } else {
+                        alertDialog.setTitle(R.string.Sys_Warning)
+                                .setMessage(msg.arg1)
+                                .setPositiveButton(R.string.Sys_Yes, null).show();
+                    }
 
-				break;
-			case 4:
-				OnClickListener[] b = (OnClickListener[]) msg.obj;
+                    break;
+                case 3:
+                    alertDialog.setTitle(R.string.Sys_Warning)
+                            .setMessage(msg.obj.toString())
+                            .setPositiveButton(R.string.Sys_Yes, null).show();
 
-				alertDialog.setTitle(R.string.Sys_Warning).setMessage(msg.arg1)
-						.setPositiveButton(R.string.Sys_Yes, b[0])
-						.setNegativeButton(R.string.Sys_Cancel, null).show();
+                    break;
+                case 4:
+                    OnClickListener[] b = (OnClickListener[]) msg.obj;
 
-				break;
-			case 5:
+                    alertDialog.setTitle(R.string.Sys_Warning).setMessage(msg.arg1)
+                            .setPositiveButton(R.string.Sys_Yes, b[0])
+                            .setNegativeButton(R.string.Sys_Cancel, null).show();
 
-				alertDialog
-						.setTitle(R.string.Sys_Warning)
-						.setMessage(msg.obj.toString())
-						.setPositiveButton(R.string.Sys_Yes,
-								positiveButtonListener)
-						.setNegativeButton(R.string.Sys_Cancel,
-								negativeButtonListener).show();
+                    break;
+                case 5:
 
-				break;
-			case 6:
-				OnClickListener[] c = (OnClickListener[]) msg.obj;
+                    alertDialog
+                            .setTitle(R.string.Sys_Warning)
+                            .setMessage(msg.obj.toString())
+                            .setPositiveButton(R.string.Sys_Yes,
+                                    positiveButtonListener)
+                            .setNegativeButton(R.string.Sys_Cancel,
+                                    negativeButtonListener).show();
 
-				if (c != null && c.length == 1) {
-					alertDialog.setTitle(msg.arg2).setMessage(msg.arg1)
-							.setPositiveButton(R.string.Sys_Yes, c[0]).show();
-				} else {
-					alertDialog.setTitle(msg.arg2).setMessage(msg.arg1)
-							.setPositiveButton(R.string.Sys_Yes, null).show();
-				}
+                    break;
+                case 6:
+                    OnClickListener[] c = (OnClickListener[]) msg.obj;
 
-				break;
-			case 7:
-				if(myRun!=null){
-					myRun.run();
-				}
-				
-				break;
-			default:
-				break;
-			}
-		}
-	};
+                    if (c != null && c.length == 1) {
+                        alertDialog.setTitle(msg.arg2).setMessage(msg.arg1)
+                                .setPositiveButton(R.string.Sys_Yes, c[0]).show();
+                    } else {
+                        alertDialog.setTitle(msg.arg2).setMessage(msg.arg1)
+                                .setPositiveButton(R.string.Sys_Yes, null).show();
+                    }
 
-	protected void onCreate(Bundle savedInstanceState, int layoutId) {
-		super.onCreate(savedInstanceState);
-		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+                    break;
+                case 7:
+                    if (myRun != null) {
+                        myRun.run();
+                    }
 
-		setContentView(layoutId);
-		alertDialog = new AlertDialog.Builder(this);
-		inti();
-	}
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
 
-	public void dismissProgressDialog() {
-		Message.obtain(handler, 0).sendToTarget();
-	}
+    protected void onCreate(Bundle savedInstanceState, int layoutId) {
+        super.onCreate(savedInstanceState);
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-	public void showProgressDialog(String message, boolean isShowCannelButton) {
-		int showCannelButton = 0;
-		if (isShowCannelButton) {
-			showCannelButton = 1;
-		}
-		Message.obtain(handler, 1, showCannelButton, 0, message).sendToTarget();
-	}
+        setContentView(layoutId);
+        alertDialog = new AlertDialog.Builder(this);
+        inti();
+    }
 
-	public void showWarningMessage(int messageResoure,
-			OnClickListener... listeners) {
-		Message.obtain(handler, 2, messageResoure, 0, listeners).sendToTarget();
-	}
+    public void dismissProgressDialog() {
+        Message.obtain(handler, 0).sendToTarget();
+    }
 
-	public void showWarningMessage(String messageResoure) {
-		Message.obtain(handler, 3, messageResoure).sendToTarget();
-	}
+    public void showProgressDialog(String message, boolean isShowCannelButton) {
+        int showCannelButton = 0;
+        if (isShowCannelButton) {
+            showCannelButton = 1;
+        }
+        Message.obtain(handler, 1, showCannelButton, 0, message).sendToTarget();
+    }
 
-	public void showConfirmMessage(int messageResoure,
-			OnClickListener... listeners) {
-		Message.obtain(handler, 4, messageResoure, 0, listeners).sendToTarget();
-	}
+    public void showWarningMessage(int messageResoure,
+                                   OnClickListener... listeners) {
+        Message.obtain(handler, 2, messageResoure, 0, listeners).sendToTarget();
+    }
 
-	public void showConfirmMessage(String messageResoure,
-			OnClickListener... listeners) {
-		positiveButtonListener = null;
-		negativeButtonListener = null;
+    public void showWarningMessage(String messageResoure) {
+        Message.obtain(handler, 3, messageResoure).sendToTarget();
+    }
 
-		if (listeners.length != 0) {
-			positiveButtonListener = listeners[0];
-			if (listeners.length > 1) {
-				negativeButtonListener = listeners[1];
-			}
-		}
-		Message.obtain(handler, 5, messageResoure).sendToTarget();
-	}
+    public void showConfirmMessage(int messageResoure,
+                                   OnClickListener... listeners) {
+        Message.obtain(handler, 4, messageResoure, 0, listeners).sendToTarget();
+    }
 
-	public void showTitleMessage(int messageResoure, int title,
-			OnClickListener... listeners) {
-		Message.obtain(handler, 6, messageResoure, title, listeners)
-				.sendToTarget();
-	}
+    public void showConfirmMessage(String messageResoure,
+                                   OnClickListener... listeners) {
+        positiveButtonListener = null;
+        negativeButtonListener = null;
 
-	public void run(MyRun myRun) {
-		this.myRun=myRun;
-		Message.obtain(handler, 7).sendToTarget();
-	}
+        if (listeners.length != 0) {
+            positiveButtonListener = listeners[0];
+            if (listeners.length > 1) {
+                negativeButtonListener = listeners[1];
+            }
+        }
+        Message.obtain(handler, 5, messageResoure).sendToTarget();
+    }
 
-	// public void runInBackgroundAndProgressDialog(){
-	//
-	// }
+    public void showTitleMessage(int messageResoure, int title,
+                                 OnClickListener... listeners) {
+        Message.obtain(handler, 6, messageResoure, title, listeners)
+                .sendToTarget();
+    }
 
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		if (progressDialog != null) {
-			progressDialog.cancel();
-		}
-	}
+    public void run(MyRun myRun) {
+        this.myRun = myRun;
+        Message.obtain(handler, 7).sendToTarget();
+    }
 
-	public void inti() {
-		if (findViewById(R.id.back) != null) {
-			android.view.View.OnClickListener listener = new android.view.View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					switch (v.getId()) {
-					case R.id.back:
-						finish();
-						break;
+    // public void runInBackgroundAndProgressDialog(){
+    //
+    // }
 
-					default:
-						break;
-					}
-				}
-			};
-			findViewById(R.id.back).setOnClickListener(listener);
-		}
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (progressDialog != null) {
+            progressDialog.cancel();
+        }
+    }
 
-		initView();
-		initButton();
-		initListView();
-	}
+    protected void showToast(String c) {
+        Toast.makeText(getApplicationContext(), c, Toast.LENGTH_SHORT).show();
+    }
 
-	public abstract void initView();
+    public void inti() {
+        if (findViewById(R.id.back) != null) {
+            android.view.View.OnClickListener listener = new android.view.View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    switch (v.getId()) {
+                        case R.id.back:
+                            finish();
+                            break;
 
-	public abstract void initButton();
+                        default:
+                            break;
+                    }
+                }
+            };
+            findViewById(R.id.back).setOnClickListener(listener);
+        }
 
-	public abstract void initListView();
-	
-	public interface MyRun{
-		void run();
-	}
+        initView();
+        initButton();
+        initListView();
+    }
+
+    public abstract void initView();
+
+    public abstract void initButton();
+
+    public abstract void initListView();
+
+    public interface MyRun {
+        void run();
+    }
 }

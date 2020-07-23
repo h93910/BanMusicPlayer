@@ -53,8 +53,6 @@ public class MusicSettingTool {
 
 	/**
 	 * 保存表的下标
-	 * 
-	 * @param count
 	 */
 	public void updateListIndex() {
 		Editor editor = sharedPreferences.edit();
@@ -63,7 +61,7 @@ public class MusicSettingTool {
 	}
 
 	/**
-	 * 取列表名??
+	 * 取列表名
 	 * 
 	 * @return
 	 */
@@ -98,8 +96,6 @@ public class MusicSettingTool {
 
 	/**
 	 * 删除某列信息
-	 * 
-	 * @param listInfo
 	 */
 	public void deleteListInfo(String listKey, int nowCount) {
 		saveListCount(nowCount);

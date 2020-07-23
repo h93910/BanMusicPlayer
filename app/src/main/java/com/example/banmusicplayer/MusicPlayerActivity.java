@@ -23,8 +23,10 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
+import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
@@ -177,6 +179,8 @@ public class MusicPlayerActivity extends Activity implements
 		} else {
 			albumart.setBackgroundResource(R.drawable.albumart_mp_unknown);
 			albumart.setImageDrawable(null);
+			albumart.setLayoutParams(new LinearLayout.LayoutParams(
+					ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 		}
 		albumart.setAlpha(80);
 	}

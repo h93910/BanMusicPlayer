@@ -3,14 +3,14 @@
     <item
         android:id="@+id/action_play_all"
         android:icon="@drawable/ic_menu_forward"
-        android:title="鎾斁鍏ㄩ儴"/>
+        android:title="播放全部"/>
     <item
         android:id="@+id/action_random_play_all"
         android:icon="@drawable/ic_menu_share"
-        android:title="鍏ㄩ儴闅忔満鎾斁"/>
+        android:title="全部随机播放"/>
     <item
         android:id="@+id/action_about"
         android:icon="@drawable/ic_menu_myplaces"
-        android:title="鍏充簬"/>
+        android:title="关于"/>
 
 </menu>

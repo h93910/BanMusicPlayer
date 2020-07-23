@@ -55,15 +55,13 @@ public class MusicListActivity extends MyBaseActivity {
 			switch (msg.what) {
 			case 1:
 				proDialog = new ProgressDialog(activity);
-				proDialog.setMessage("正在将音乐加入列表中...");
+				proDialog.setMessage(getString(R.string.main_music_join));
 				proDialog.setCancelable(false);
 				proDialog.setIndeterminate(true);
 				proDialog.show();
-
 				break;
-
 			case 2:
-				Toast.makeText(getApplicationContext(), "成功加入列表",
+				Toast.makeText(getApplicationContext(), R.string.main_music_join_success,
 						Toast.LENGTH_SHORT).show();
 				break;
 			default:
@@ -211,7 +209,7 @@ public class MusicListActivity extends MyBaseActivity {
 
 			Builder dialog = new AlertDialog.Builder(this);
 			dialog.setTitle("关于").setView(StaticInfo.getAboutContent(this));
-			dialog.setNegativeButton("确定", new OnClickListener() {
+			dialog.setNegativeButton(R.string.Sys_confirm, new OnClickListener() {
 
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
@@ -365,17 +363,17 @@ public class MusicListActivity extends MyBaseActivity {
 			final String[] name = (String[]) musicListNameMap
 					.toArray(new String[musicListNameMap.size()]);
 			builder = new Builder(activity);
-			builder.setTitle("请???择将要加入的列??")
+			builder.setTitle(R.string.main_music_select)
 					.setIcon(android.R.drawable.ic_dialog_alert)
 					.setSingleChoiceItems(name, -1, new OnClickListener() {
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
-							System.out.println("已???中"
+							System.out.println("已选中"
 									+ musicListNameMap.get(which));
 							choose = which;
 						}
-					}).setNegativeButton("取消", null)
-					.setPositiveButton("确定", new OnClickListener() {
+					}).setNegativeButton(R.string.Sys_no,null)
+					.setPositiveButton(R.string.Sys_confirm, new OnClickListener() {
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
 							new Thread() {
@@ -399,8 +397,8 @@ public class MusicListActivity extends MyBaseActivity {
 			builder = new Builder(activity);
 			builder.setMessage("你是否将要从此列表中移除这音乐？")
 					.setIcon(android.R.drawable.ic_dialog_alert).setTitle(" ")
-					.setNegativeButton("取消", null)
-					.setPositiveButton("确定", new OnClickListener() {
+					.setNegativeButton(R.string.Sys_no, null)
+					.setPositiveButton(R.string.Sys_confirm, new OnClickListener() {
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
 							deleteMusic(listLongClickPosition);
@@ -418,19 +416,13 @@ public class MusicListActivity extends MyBaseActivity {
 
 	@Override
 	public void initView() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void initButton() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void initListView() {
-		// TODO Auto-generated method stub
-
 	}
 }

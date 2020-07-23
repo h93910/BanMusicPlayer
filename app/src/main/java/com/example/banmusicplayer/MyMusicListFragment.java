@@ -209,7 +209,7 @@ public class MyMusicListFragment extends Fragment {
 
 	/**
 	 * 添加自定义列??
-	 * 
+	 *
 	 * @param listName
 	 */
 	private boolean canClose = false;
@@ -225,7 +225,7 @@ public class MyMusicListFragment extends Fragment {
 		TextView textView = new TextView(getActivity());
 		textView.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,
 				LayoutParams.WRAP_CONTENT));
-		textView.setText("新列??:");
+		textView.setText("新列表名:");
 		final EditText editText = new EditText(getActivity());
 		editText.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,
 				LayoutParams.WRAP_CONTENT));
@@ -233,10 +233,10 @@ public class MyMusicListFragment extends Fragment {
 		layout.addView(editText);
 
 		builder = new AlertDialog.Builder(getActivity());
-		builder.setTitle("请输入新的列表名??").setView(layout)
+		builder.setTitle("请输入新的列表名：").setView(layout)
 				.setIcon(android.R.drawable.ic_dialog_info)
-				.setNegativeButton("取消", null);
-		builder.setPositiveButton("确定", null);
+				.setNegativeButton(R.string.Sys_no, null);
+		builder.setPositiveButton(R.string.Sys_confirm, null);
 
 		dialog = builder.show();
 		dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(
@@ -301,8 +301,8 @@ public class MyMusicListFragment extends Fragment {
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v,
 			ContextMenuInfo menuInfo) {
-		menu.setHeaderTitle("操作");
-		menu.add(0, 1, Menu.NONE, "删除该列??");
+		menu.setHeaderTitle(R.string.main_operating);
+		menu.add(0, 1, Menu.NONE, "删除该列");
 	}
 
 	@Override
@@ -312,8 +312,8 @@ public class MyMusicListFragment extends Fragment {
 			AlertDialog.Builder builder = new Builder(getActivity());
 			builder.setMessage("你是否将要从移除此列表？")
 					.setIcon(android.R.drawable.ic_dialog_alert).setTitle(" ")
-					.setNegativeButton("取消", null)
-					.setPositiveButton("确定", new OnClickListener() {
+					.setNegativeButton(R.string.Sys_no, null)
+					.setPositiveButton(R.string.Sys_confirm, new OnClickListener() {
 						@Override
 						public void onClick(DialogInterface dialog,
 								final int which) {
