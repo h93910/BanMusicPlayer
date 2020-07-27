@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:padding="3dp"
-            android:src="@drawable/back_left"
+            android:src="@mipmap/back_left"
             android:visibility="gone" />
 
         <TextView

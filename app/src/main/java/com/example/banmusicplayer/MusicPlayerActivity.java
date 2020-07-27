@@ -111,7 +111,7 @@ public class MusicPlayerActivity extends Activity implements
 		bar.setOnSeekBarChangeListener(this);
 
 		playButton = (ImageView) findViewById(R.id.music_play_button);
-		playButton.setImageResource(R.drawable.ic_media_pause);
+		playButton.setImageResource(R.mipmap.ic_media_pause);
 
 		// 字幕设置
 		subtitle = (TextView) findViewById(R.id.music_subtitle_textview);
@@ -177,7 +177,7 @@ public class MusicPlayerActivity extends Activity implements
 			albumart.setBackgroundColor(0x00000000);
 			albumart.setImageBitmap(album);
 		} else {
-			albumart.setBackgroundResource(R.drawable.albumart_mp_unknown);
+			albumart.setBackgroundResource(R.mipmap.albumart_mp_unknown);
 			albumart.setImageDrawable(null);
 			albumart.setLayoutParams(new LinearLayout.LayoutParams(
 					ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -218,11 +218,11 @@ public class MusicPlayerActivity extends Activity implements
 		if (playing) {
 			playing = false;
 			mediaPlayer.pause();
-			playButton.setImageResource(R.drawable.ic_media_play);
+			playButton.setImageResource(R.mipmap.ic_media_play);
 		} else {
 			playing = true;
 			mediaPlayer.start();
-			playButton.setImageResource(R.drawable.ic_media_pause);
+			playButton.setImageResource(R.mipmap.ic_media_pause);
 		}
 	}
 
@@ -257,7 +257,7 @@ public class MusicPlayerActivity extends Activity implements
 		setTitle(musicName);
 		mediaPlayer = binder.getMediaPlayer();
 		mediaPlayer.setOnCompletionListener(this);
-		notification = new Notification(R.drawable.icon, musicName,
+		notification = new Notification(R.mipmap.icon, musicName,
 				System.currentTimeMillis());
 		//TODO
 //		notification.setLatestEventInfo(this, "曲名", musicName, PendingIntent

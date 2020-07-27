@@ -11,13 +11,14 @@
     <string name="Sys_no">取消</string>
     <string name="Sys_confirm">确定</string>
     <string name="update_log">更新日志:\n\n
+        2020.7.24\n放弃自己写的播放界面，启用别人的，地址：\nhttps://github.com/WuLiFei/LyricViewDemo\n\n
         2020.7.5\n添加FloatingActionButton做为菜单键\n\n
         2020.6.28\n更新项目为AS目录，引入androidX，修复编码问题\n\n
         2016.1.8\n尝试修复退出播放时，通知栏还有通知的BUG\n\n
         2015.12.21\n优化目录缓存功能，加快读取目录速度\n增加载入目录时的等待效果\n\n
         2015.12.18\n新增更新日志\n新增动画包并应用\n我的音乐列表中新增返回按钮\n新增目录缓存\n\n
         2015.9.28\n之前没日志时的最后一次时间\n</string>
-	<string name="loading">加载中&#8230;</string>
+    <string name="loading">加载中&#8230;</string>
     <string name="main_music_join">正在将音乐加入列表中&#8230;</string>
     <string name="main_music_join_success">成功加入列表</string>
     <string name="main_operating">操作</string>

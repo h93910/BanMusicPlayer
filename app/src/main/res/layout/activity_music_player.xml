@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_margin="30dp"
-            android:background="@drawable/albumart_mp_unknown" />
+            android:background="@mipmap/albumart_mp_unknown" />
 
         <ScrollView
             android:id="@+id/music_subtitle_scrollview"
@@ -92,7 +92,7 @@
             android:layout_height="35dp"
             android:background="@drawable/button_press"
             android:onClick="previous"
-            android:src="@drawable/ic_media_rew" />
+            android:src="@mipmap/ic_media_rew" />
 
         <ImageView
             android:id="@+id/music_play_button"
@@ -100,14 +100,14 @@
             android:layout_height="35dp"
             android:background="@drawable/button_press"
             android:onClick="playOrPause"
-            android:src="@drawable/ic_media_play" />
+            android:src="@mipmap/ic_media_play" />
 
         <ImageView
             android:layout_width="70dp"
             android:layout_height="35dp"
             android:background="@drawable/button_press"
             android:onClick="next"
-            android:src="@drawable/ic_media_ff" />
+            android:src="@mipmap/ic_media_ff" />
 
         <CheckBox
             android:id="@+id/my_button_playmode"

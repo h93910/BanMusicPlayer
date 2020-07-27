@@ -15,7 +15,6 @@ import androidx.fragment.app.FragmentTransaction
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
 import com.example.banmusicplayer.base.StaticInfo
-import com.example.banmusicplayer.server.MusicServer
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -126,20 +125,19 @@ class MainFragmentActivity : MyBaseActivity() {
             }
         } else {
         }
-        val serviceIntent = Intent(this, MusicServer::class.java)
-        serviceIntent.putStringArrayListExtra("musicPath", musicPath)
-        val intent = Intent(this, MusicPlayerActivity::class.java)
-        when (item.itemId) {
-            R.id.action_play_all -> intent.putExtra("position", 0)
-            R.id.action_random_play_all -> {
-                val rd = (Math.random() * musicPath.size).toInt()
-                intent.putExtra("position", rd)
-                intent.putExtra("isRandom", true)
-                serviceIntent.putExtra("isRandom", true)
-            }
-        }
-        startService(serviceIntent)
-        startActivity(intent)
+
+//        val intent = Intent(this,
+//                com.example.mariostudio.lyricviewdemo.activity.MainActivity::class.java)
+//        intent.putStringArrayListExtra("musicPath", musicPath)
+//        when (item.itemId) {
+//            R.id.action_play_all -> intent.putExtra("position", 0)
+//            R.id.action_random_play_all -> {
+//                val rd = (Math.random() * musicPath.size).toInt()
+//                intent.putExtra("position", rd)
+//                intent.putExtra("isRandom", true)
+//            }
+//        }
+//        startActivity(intent)
         return super.onOptionsItemSelected(item)
     }
 
