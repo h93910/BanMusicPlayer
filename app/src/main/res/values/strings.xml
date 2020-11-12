@@ -11,6 +11,8 @@
     <string name="Sys_no">取消</string>
     <string name="Sys_confirm">确定</string>
     <string name="update_log">更新日志:\n\n
+        2020.11.12\n修复音乐播放暂停后不能再播放问题\n\n
+        2020.10.19\n修复单增加一首音乐成功后等待框卡死问题\n\n
         2020.7.24\n放弃自己写的播放界面，启用别人的，地址：\nhttps://github.com/WuLiFei/LyricViewDemo\n\n
         2020.7.5\n添加FloatingActionButton做为菜单键\n\n
         2020.6.28\n更新项目为AS目录，引入androidX，修复编码问题\n\n

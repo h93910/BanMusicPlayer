@@ -1,9 +1,5 @@
 package com.example.banmusicplayer;
 
-import java.io.File;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
@@ -31,10 +27,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.banmusicplayer.base.StaticInfo;
-import com.example.banmusicplayer.server.MusicServer;
 import com.example.banmusicplayer.tool.MusicCatalogTool;
 import com.example.banmusicplayer.tool.MusicSettingTool;
 import com.example.mariostudio.lyricviewdemo.activity.MainActivity;
+
+import java.io.File;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
 
 public class MusicListActivity extends MyBaseActivity {
     private MusicListActivity activity = this;
@@ -62,6 +61,10 @@ public class MusicListActivity extends MyBaseActivity {
                     proDialog.show();
                     break;
                 case 2:
+                    if (proDialog != null) {
+                        proDialog.cancel();
+                        proDialog = null;
+                    }
                     Toast.makeText(getApplicationContext(), R.string.main_music_join_success,
                             Toast.LENGTH_SHORT).show();
                     break;
