@@ -11,6 +11,8 @@
     <string name="Sys_no">取消</string>
     <string name="Sys_confirm">确定</string>
     <string name="update_log">更新日志:\n\n
+        2021.4.8\n添加ogg音乐选择\n\n
+        2020.12.30\n去除主页音乐列表选择\n增加文件选择插件用于选择音乐\n使用jdk1.8\n\n
         2020.11.12\n修复音乐播放暂停后不能再播放问题\n\n
         2020.10.19\n修复单增加一首音乐成功后等待框卡死问题\n\n
         2020.7.24\n放弃自己写的播放界面，启用别人的，地址：\nhttps://github.com/WuLiFei/LyricViewDemo\n\n
@@ -27,4 +29,11 @@
     <string name="main_music_add_all">增加此目录全部音乐到列表</string>
     <string name="main_music_empty">音乐列表个数为0,请去添加列表后再试</string>
     <string name="main_music_select">请选择将要加入的列表</string>
+    <string name="music_list_add">增加音乐</string>
+    <string name="music_list_delete">删除该列</string>
+    <string name="list_add_repeat">此列表名已存在，请重新输入</string>
+    <string name="list_add_success">成功添加新的列表</string>
+    <string name="list_add_input">请输入列表名</string>
+    <string name="list_add_fail">增加失败:%1$s</string>
+    <string name="list_remove_remind">你是否将要从移除此列表？</string>
 </resources>
