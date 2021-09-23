@@ -20,6 +20,16 @@
             android:src="@mipmap/back_left"
             android:visibility="gone" />
 
+        <ImageView
+            android:id="@+id/add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:padding="3dp"
+            android:rotation="90"
+            android:src="@mipmap/back_left" />
+
         <TextView
             android:id="@+id/list_name"
             android:layout_width="match_parent"

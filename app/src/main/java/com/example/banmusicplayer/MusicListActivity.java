@@ -26,6 +26,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ess.filepicker.FilePicker;
+import com.ess.filepicker.model.EssFile;
+import com.ess.filepicker.util.Const;
 import com.example.banmusicplayer.base.StaticInfo;
 import com.example.banmusicplayer.tool.MusicCatalogTool;
 import com.example.banmusicplayer.tool.MusicSettingTool;
@@ -45,6 +48,7 @@ public class MusicListActivity extends MyBaseActivity {
     private boolean canAddMusic;
     private String listName = "";
     private int listLongClickPosition = 0;
+    private static final int REQUEST_CODE_CHOOSE = 6;
 
     private ArrayList<String> musicListNameMap;
 
@@ -63,7 +67,6 @@ public class MusicListActivity extends MyBaseActivity {
                 case 2:
                     if (proDialog != null) {
                         proDialog.cancel();
-                        proDialog = null;
                     }
                     Toast.makeText(getApplicationContext(), R.string.main_music_join_success,
                             Toast.LENGTH_SHORT).show();
@@ -84,7 +87,7 @@ public class MusicListActivity extends MyBaseActivity {
         listName = intent.getStringExtra("listName");
         if (listName != null && !listName.equals("")) {
             findViewById(R.id.back).setVisibility(View.VISIBLE);// 显示返回按钮
-            textView = (TextView) findViewById(R.id.list_name);
+            textView = findViewById(R.id.list_name);
             textView.setVisibility(View.VISIBLE);
             textView.setText(listName);
         } else {
@@ -92,16 +95,12 @@ public class MusicListActivity extends MyBaseActivity {
         }
 
         proDialog = new ProgressDialog(this);
-        musicList = (ListView) findViewById(R.id.my_musiclist);
-        musicList.setOnItemClickListener(new OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-                proDialog.setMessage("正在载入音乐...");
-                proDialog.setCancelable(false);
-                proDialog.setIndeterminate(true);
-                proDialog.show();
+        musicList = findViewById(R.id.my_musiclist);
+        musicList.setOnItemClickListener((parent, view, position, id) -> {
+            proDialog.setMessage("正在载入音乐...");
+            proDialog.setCancelable(false);
+            proDialog.setIndeterminate(true);
+            proDialog.show();
 
 //				Intent intent2 = new Intent(MusicListActivity.this,
 //						MusicServer.class);
@@ -109,22 +108,17 @@ public class MusicListActivity extends MyBaseActivity {
 //				intent2.putExtra("position", position);
 //				startService(intent2);
 
-                Intent intent1 = new Intent(MusicListActivity.this,
-                        MainActivity.class);
-                intent1.putStringArrayListExtra("musicPath", musicPath);
-                intent1.putExtra("position", position);
-                startActivity(intent1);
-            }
+            Intent intent1 = new Intent(MusicListActivity.this,
+                    MainActivity.class);
+            intent1.putStringArrayListExtra("musicPath", musicPath);
+            intent1.putExtra("position", position);
+            startActivity(intent1);
         });
 
-        musicList.setOnItemLongClickListener(new OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view,
-                                           final int position, long id) {
-                listLongClickPosition = position;
-                System.out.println(musicPath.get(position));
-                return false;// true为吃掉事??,因为有contextMenu,??以这里用false;
-            }
+        musicList.setOnItemLongClickListener((parent, view, position, id) -> {
+            listLongClickPosition = position;
+            System.out.println(musicPath.get(position));
+            return false;// true为吃掉事件,因为有contextMenu,所以这里用false;
         });
 
         this.registerForContextMenu(musicList);
@@ -133,12 +127,12 @@ public class MusicListActivity extends MyBaseActivity {
 
     @Override
     protected void onResume() {
-        musicListNameMap = new ArrayList<String>();
+        musicListNameMap = new ArrayList<>();
         Iterable<String> a = new MusicSettingTool(this).getListInfo().values();
         for (String string : a) {
             musicListNameMap.add(string);
         }
-        if (proDialog.isShowing()) {
+        if (proDialog != null && proDialog.isShowing()) {
             proDialog.dismiss();
         }
         super.onResume();
@@ -146,46 +140,39 @@ public class MusicListActivity extends MyBaseActivity {
 
     private void setList() {
         showProgressDialog(getString(R.string.loading), false);
-        new Thread() {
-            public void run() {
-                final ArrayList<String> musicName = new ArrayList<String>();
-                if (musicPath != null) {
-                    for (String string : musicPath) {
-                        File f = new File(string);
-                        if (!StaticInfo.SINGLE_MUSIC_INFO.containsKey(string)) {
-                            String musicNameString = "";
-                            String artist = MusicCatalogTool.getArtist(
-                                    activity, string);
-                            if (artist.equals("<unknown>")) {
-                                musicNameString = f.getName();
-                            } else {
-                                musicNameString = f.getName() + "\t\tby:"
-                                        + artist;
-                            }
-                            musicName.add(musicNameString);
-                            StaticInfo.SINGLE_MUSIC_INFO.put(string,
-                                    musicNameString);
+        new Thread(() -> {
+            final ArrayList<String> musicName = new ArrayList<>();
+            if (musicPath != null) {
+                for (String string : musicPath) {
+                    File f = new File(string);
+                    if (!StaticInfo.SINGLE_MUSIC_INFO.containsKey(string)) {
+                        String musicNameString = "";
+                        String artist = MusicCatalogTool.getArtist(
+                                activity, string);
+                        if (artist.equals("<unknown>")) {
+                            musicNameString = f.getName();
                         } else {
-                            musicName.add(StaticInfo.SINGLE_MUSIC_INFO
-                                    .get(string));
+                            musicNameString = f.getName() + "\t\tby:"
+                                    + artist;
                         }
+                        musicName.add(musicNameString);
+                        StaticInfo.SINGLE_MUSIC_INFO.put(string,
+                                musicNameString);
+                    } else {
+                        musicName.add(StaticInfo.SINGLE_MUSIC_INFO
+                                .get(string));
                     }
                 }
-                MusicListActivity.this.run(new MyRun() {
-                    @Override
-                    public void run() {
-                        musicList
-                                .setAdapter(new ArrayAdapter<String>(activity,
-                                        android.R.layout.simple_list_item_1,
-                                        musicName));
-                        dismissProgressDialog();
-                    }
-                });
-
             }
+            MusicListActivity.this.run(() -> {
+                musicList
+                        .setAdapter(new ArrayAdapter<String>(activity,
+                                android.R.layout.simple_list_item_1,
+                                musicName));
+                dismissProgressDialog();
+            });
 
-            ;
-        }.start();
+        }).start();
     }
 
     @Override
@@ -289,7 +276,10 @@ public class MusicListActivity extends MyBaseActivity {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == -1) {
+        if (resultCode != RESULT_OK) {
+            return;
+        }
+        if (requestCode == -1) {
             Uri uri = data.getData();
 
             Cursor cursor = getContentResolver().query(uri, null, null, null,
@@ -316,24 +306,39 @@ public class MusicListActivity extends MyBaseActivity {
                     musicPath.add(tempPath);// 新加到当前列表中
                     setList();
                     Toast.makeText(this, "增加成功", Toast.LENGTH_SHORT).show();
-                    new Thread() {
-                        public void run() {
-                            if (StaticInfo.db.saveOneMusicPath(listName,
-                                    tempPath)) {
-                                System.out.println("已成功将数据插入数据??");
-                                StaticInfo.MY_LIST_INFO_UPDATE = true;// ??要重新加载我的列??
-                            }// 将新的数据写入数据库
-                        }
-
-                        ;
-                    }.start();
+                    new Thread(() -> {
+                        if (StaticInfo.db.saveOneMusicPath(listName,
+                                tempPath)) {
+                            System.out.println("已成功将数据插入数据??");
+                            StaticInfo.MY_LIST_INFO_UPDATE = true;// ??要重新加载我的列??
+                        }// 将新的数据写入数据库
+                    }).start();
                 }
             } else {
                 Toast.makeText(this, "无法加入，这文件不为音乐文件", Toast.LENGTH_LONG)
                         .show();
             }
+        } else if (requestCode == REQUEST_CODE_CHOOSE) {
+            ArrayList<EssFile> essFileList = data.getParcelableArrayListExtra(Const.EXTRA_RESULT_SELECTION);
+            filePickAddMusic(essFileList);
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void filePickAddMusic(ArrayList<EssFile> list) {
+        Message.obtain(handler, 1).sendToTarget();
+        new Thread(() -> {
+            for (EssFile file : list) {
+                String p = file.getAbsolutePath();
+                musicPath.add(p);// 新加到当前列表中
+                if (StaticInfo.db.saveOneMusicPath(listName, p)) {
+                    System.out.println("已成功将数据插入数据:" + p);
+                    StaticInfo.MY_LIST_INFO_UPDATE = true;
+                }// 将新的数据写入数据库
+            }
+            setList();
+            Message.obtain(handler, 2).sendToTarget();
+        }).start();
     }
 
     @Override
@@ -427,6 +432,14 @@ public class MusicListActivity extends MyBaseActivity {
 
     @Override
     public void initButton() {
+        findViewById(R.id.add).setOnClickListener(v -> {
+            FilePicker.from(this)
+                    .chooseForBrowser()
+                    .setMaxCount(99)
+                    .setFileTypes("mp3", "ogg", "m4a", "aac")
+                    .requestCode(REQUEST_CODE_CHOOSE)
+                    .start();
+        });
     }
 
     @Override

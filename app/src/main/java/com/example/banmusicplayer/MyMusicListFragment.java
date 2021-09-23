@@ -48,13 +48,13 @@ import com.example.banmusicplayer.tool.MusicSettingTool;
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class MyMusicListFragment extends Fragment {
 	private ListView musicList;
-	private LinkedHashMap<String, String> listInfo;// 表名，列表名??
+	private LinkedHashMap<String, String> listInfo;// 表名，列表名
 	private ArrayList<String> myMusicList;// 列表名称
 	private ArrayList<String> myMusicListKey;// 列表key
 	private ArrayAdapter<String> adapter;
-	private LinkedHashMap<String, ArrayList<String>> myMusicListPath;// 列表名，列表对应的音乐列表路??
+	private LinkedHashMap<String, ArrayList<String>> myMusicListPath;// 列表名，列表对应的音乐列表路径
 	private ExecutorService executorService;
-	private int readyToGo = 0, listLongClickPosition = 0;// 已读取到的的列表个数 , 长按的位??
+	private int readyToGo = 0, listLongClickPosition = 0;// 已读取到的的列表个数 , 长按的位置
 	private String tempPath = "";// 暂存的文件路??
 	private ProgressDialog proDialog;
 
@@ -102,21 +102,21 @@ public class MyMusicListFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		proDialog = new ProgressDialog(getActivity());
-		myMusicListPath = new LinkedHashMap<String, ArrayList<String>>();
+		myMusicListPath = new LinkedHashMap<>();
 
 		executorService = Executors.newFixedThreadPool(10);
 
 		View view = inflater.inflate(R.layout.activity_main, container, false);
-		view.findViewById(R.id.a).setVisibility(View.GONE);// 毕竟复用，不用的时???要隐藏
+		view.findViewById(R.id.a).setVisibility(View.GONE);// 毕竟复用，不用的时候要隐藏
 
 		tool = new MusicSettingTool(getActivity());
 		listInfo = tool.getListInfo();
 
-		musicList = (ListView) view.findViewById(R.id.my_musiclist);
+		musicList = view.findViewById(R.id.my_musiclist);
 		this.registerForContextMenu(musicList);
 
-		myMusicListKey = new ArrayList<String>();
-		myMusicList = new ArrayList<String>();
+		myMusicListKey = new ArrayList<>();
+		myMusicList = new ArrayList<>();
 		if (listInfo.size() != 0) {
 			for (String s : listInfo.keySet()) {
 				myMusicListKey.add(s);
@@ -140,14 +140,11 @@ public class MyMusicListFragment extends Fragment {
 
 		for (final String s : myMusicList) {
 			Log.i("keySet", s);
-			executorService.execute(new Runnable() {
-				@Override
-				public void run() {
-					myMusicListPath.put(s,
-							StaticInfo.db.getThisListMusicPath(s));
-					System.out.println(myMusicListPath);
-					readyToGo++;
-				}
+			executorService.execute(() -> {
+				myMusicListPath.put(s,
+						StaticInfo.db.getThisListMusicPath(s));
+				System.out.println(myMusicListPath);
+				readyToGo++;
 			});
 		}
 	}
@@ -172,43 +169,33 @@ public class MyMusicListFragment extends Fragment {
 	 * 音乐列表的设??
 	 */
 	private void setListViewContent() {
-		adapter = new ArrayAdapter<String>(getActivity(),
+		adapter = new ArrayAdapter<>(getActivity(),
 				android.R.layout.simple_list_item_1, myMusicList);
 		musicList.setAdapter(adapter);
-		musicList.setOnItemClickListener(new OnItemClickListener() {
-
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					final int position, long id) {
-				Log.i("readyToGo", readyToGo + "");
-				Log.i("listInfo.size()", listInfo.size() + "");
-				if (readyToGo == listInfo.size()) {
-					Log.v("跳转position", position + "");
-					Log.v("跳转content",
-							myMusicListPath.get(myMusicList.get(position)) + "");
-					Intent intent = new Intent(getActivity(),
-							MusicListActivity.class);
-					intent.putStringArrayListExtra("musicPath",
-							myMusicListPath.get(myMusicList.get(position)));
-					intent.putExtra("canAddMusic", true);
-					intent.putExtra("listName", myMusicList.get(position));
-					startActivity(intent);
-				}
+		musicList.setOnItemClickListener((parent, view, position, id) -> {
+			Log.i("readyToGo", readyToGo + "");
+			Log.i("listInfo.size()", listInfo.size() + "");
+			if (readyToGo == listInfo.size()) {
+				Log.v("跳转position", position + "");
+				Log.v("跳转content",
+						myMusicListPath.get(myMusicList.get(position)) + "");
+				Intent intent = new Intent(getActivity(),
+						MusicListActivity.class);
+				intent.putStringArrayListExtra("musicPath",
+						myMusicListPath.get(myMusicList.get(position)));
+				intent.putExtra("canAddMusic", true);
+				intent.putExtra("listName", myMusicList.get(position));
+				startActivity(intent);
 			}
 		});
-		musicList.setOnItemLongClickListener(new OnItemLongClickListener() {
-
-			@Override
-			public boolean onItemLongClick(AdapterView<?> parent, View view,
-					int position, long id) {
-				listLongClickPosition = position;
-				return false;
-			}
+		musicList.setOnItemLongClickListener((parent, view, position, id) -> {
+			listLongClickPosition = position;
+			return false;
 		});
 	}
 
 	/**
-	 * 添加自定义列??
+	 * 添加自定义列表
 	 *
 	 * @param listName
 	 */
@@ -240,39 +227,36 @@ public class MyMusicListFragment extends Fragment {
 
 		dialog = builder.show();
 		dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(
-				new View.OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						String newListName = editText.getText().toString();
-						if (newListName.equals("")) {
-							Toast.makeText(getActivity(), "请输入列表名",
-									Toast.LENGTH_SHORT).show();
-							return;
-						}
-						if (!myMusicListPath.containsKey(newListName)) {
-							readyToGo++;
-							myMusicListPath.put(newListName,
-									new ArrayList<String>());
-							Toast.makeText(getActivity(), "成功添加新的列表",
-									Toast.LENGTH_SHORT).show();
-							int listIndex = tool.getListIndex();
-							listInfo.put("T_" + listIndex, newListName);
-							tool.saveListCount(listInfo.size());
-							tool.saveListInfo(listInfo);
-							canClose = true;
+				v -> {
+					String newListName = editText.getText().toString();
+					if (newListName.equals("")) {
+						Toast.makeText(getActivity(), "请输入列表名",
+								Toast.LENGTH_SHORT).show();
+						return;
+					}
+					if (!myMusicListPath.containsKey(newListName)) {
+						readyToGo++;
+						myMusicListPath.put(newListName,
+								new ArrayList<>());
+						Toast.makeText(getActivity(), "成功添加新的列表",
+								Toast.LENGTH_SHORT).show();
+						int listIndex = tool.getListIndex();
+						listInfo.put("T_" + listIndex, newListName);
+						tool.saveListCount(listInfo.size());
+						tool.saveListInfo(listInfo);
+						canClose = true;
 
-							myMusicList.add(newListName);
-							myMusicListKey.add("T_" + listIndex);
-							StaticInfo.MY_LIST_INFO_UPDATE = true;// ??要重新加载我的列??
-							setListViewContent();
-						} else {
-							Toast.makeText(getActivity(), "此列表名已存在，请重新输??",
-									Toast.LENGTH_SHORT).show();
-						}
+						myMusicList.add(newListName);
+						myMusicListKey.add("T_" + listIndex);
+						StaticInfo.MY_LIST_INFO_UPDATE = true;// 要重新加载我的列表
+						setListViewContent();
+					} else {
+						Toast.makeText(getActivity(), "此列表名已存在，请重新输??",
+								Toast.LENGTH_SHORT).show();
+					}
 
-						if (canClose) {
-							dialog.cancel();
-						}
+					if (canClose) {
+						dialog.cancel();
 					}
 				});
 	}
@@ -313,35 +297,31 @@ public class MyMusicListFragment extends Fragment {
 			builder.setMessage("你是否将要从移除此列表？")
 					.setIcon(android.R.drawable.ic_dialog_alert).setTitle(" ")
 					.setNegativeButton(R.string.Sys_no, null)
-					.setPositiveButton(R.string.Sys_confirm, new OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog,
-								final int which) {
+					.setPositiveButton(R.string.Sys_confirm, (dialog, which) -> {
 
-							Message.obtain(handler, 2).sendToTarget();
-							new Thread() {
-								public void run() {
-									if (StaticInfo.db.deleteOneMusicPath(
-											myMusicList
-													.get(listLongClickPosition),
-											null)) {
-										listInfo.remove(myMusicListKey
-												.get(listLongClickPosition));// 先删总表里的内容
+						Message.obtain(handler, 2).sendToTarget();
+						new Thread() {
+							public void run() {
+								if (StaticInfo.db.deleteOneMusicPath(
 										myMusicList
-												.remove(listLongClickPosition);// 删显示的表名里的内容
-										tool.deleteListInfo(myMusicListKey
 												.get(listLongClickPosition),
-												myMusicList.size());
-										myMusicListKey
-												.remove(listLongClickPosition);// 删表名里的内??
-										readyToGo--;
-										StaticInfo.MY_LIST_INFO_UPDATE = true;// ??要重新加载我的列??
-										Message.obtain(handler, 3)
-												.sendToTarget();
-									}
-								};
-							}.start();
-						}
+										null)) {
+									listInfo.remove(myMusicListKey
+											.get(listLongClickPosition));// 先删总表里的内容
+									myMusicList
+											.remove(listLongClickPosition);// 删显示的表名里的内容
+									tool.deleteListInfo(myMusicListKey
+											.get(listLongClickPosition),
+											myMusicList.size());
+									myMusicListKey
+											.remove(listLongClickPosition);// 删表名里的内??
+									readyToGo--;
+									StaticInfo.MY_LIST_INFO_UPDATE = true;// ??要重新加载我的列??
+									Message.obtain(handler, 3)
+											.sendToTarget();
+								}
+							};
+						}.start();
 					}).show();
 			break;
 
