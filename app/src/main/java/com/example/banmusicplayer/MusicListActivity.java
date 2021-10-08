@@ -309,7 +309,7 @@ public class MusicListActivity extends MyBaseActivity {
                     new Thread(() -> {
                         if (StaticInfo.db.saveOneMusicPath(listName,
                                 tempPath)) {
-                            System.out.println("已成功将数据插入数据??");
+                            System.out.println("已成功将数据插入数据库");
                             StaticInfo.MY_LIST_INFO_UPDATE = true;// ??要重新加载我的列??
                         }// 将新的数据写入数据库
                     }).start();
@@ -332,7 +332,7 @@ public class MusicListActivity extends MyBaseActivity {
                 String p = file.getAbsolutePath();
                 musicPath.add(p);// 新加到当前列表中
                 if (StaticInfo.db.saveOneMusicPath(listName, p)) {
-                    System.out.println("已成功将数据插入数据:" + p);
+                    System.out.println("已成功将数据插入数据库:" + p);
                     StaticInfo.MY_LIST_INFO_UPDATE = true;
                 }// 将新的数据写入数据库
             }
@@ -436,7 +436,7 @@ public class MusicListActivity extends MyBaseActivity {
             FilePicker.from(this)
                     .chooseForBrowser()
                     .setMaxCount(99)
-                    .setFileTypes("mp3", "ogg", "m4a", "aac")
+                    .setFileTypes("mp3", "ogg", "m4a", "aac","flac")
                     .requestCode(REQUEST_CODE_CHOOSE)
                     .start();
         });

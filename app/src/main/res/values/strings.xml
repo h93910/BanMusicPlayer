@@ -11,6 +11,7 @@
     <string name="Sys_no">取消</string>
     <string name="Sys_confirm">确定</string>
     <string name="update_log">更新日志:\n\n
+        2021.10.8\n添加m4a,flac,acc音乐选择\n消除代码错误版本\n添加耳机按钮操作与音源焦点问题侦听\n修改主页为单一列表\n\n
         2021.4.8\n添加ogg音乐选择\n\n
         2020.12.30\n去除主页音乐列表选择\n增加文件选择插件用于选择音乐\n使用jdk1.8\n\n
         2020.11.12\n修复音乐播放暂停后不能再播放问题\n\n

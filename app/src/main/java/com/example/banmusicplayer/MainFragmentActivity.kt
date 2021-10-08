@@ -95,7 +95,9 @@ class MainFragmentActivity : MyBaseActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        StaticInfo.db.close()
+        if (StaticInfo.db != null) {
+            StaticInfo.db.close()
+        }
     }
 
     override fun initView() {

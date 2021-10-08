@@ -38,7 +38,7 @@ public class MusicDB extends SQLiteOpenHelper {
 		Cursor cursor = database.query("music_info",
 				new String[] { "music_path" }, "list_name=?",
 				new String[] { listName }, null, null, null);
-		System.out.println("列表??:" + listName);
+		System.out.println("列表:" + listName);
 		if (cursor != null) {
 			while (cursor.moveToNext()) {
 				String oneMusicPath = cursor.getString(cursor
@@ -54,7 +54,7 @@ public class MusicDB extends SQLiteOpenHelper {
 	}
 
 	/**
-	 * 向数据库插入??条音乐信??
+	 * 向数据库插入n条音乐信息
 	 * 
 	 * @param listName
 	 * @param musicPath
@@ -68,7 +68,7 @@ public class MusicDB extends SQLiteOpenHelper {
 		contentValues.put("list_name", listName);
 		contentValues.put("music_path", musicPath);
 		if (database.insert("music_info", null, contentValues) == -1) {
-			// 没有表才失败的，??以要新建??
+			// 没有表才失败的，所以要新建表
 			createTable();
 			return false;
 		}
